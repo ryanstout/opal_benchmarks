@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+    <script>
+    window.jsTests = {};
+    window.rbTests = {};
+
+    window.rbTimes = {};
+    window.jsTimes = {};
+
+    window.iterations = 100000;
+
+    function runTests() {
+      window.rbTimes = runTest(window.rbTests);
+      window.jsTimes = runTest(window.jsTests);
+
+      console.log('times: ---');
+      console.log('ruby: ', window.rbTimes);
+      console.log('js: ', window.jsTimes);
+    }
+
+    function runTest(tests) {
+      console.log(tests);
+      var times = {};
+
+      for (var prop in tests) {
+        var test = tests[prop];
+
+        var start = (new Date).getTime();
+        for (var i=0;i < window.iterations;i++) {
+          test();
+        }
+        var diff = (new Date).getTime() - start;
+
+        times[prop] = diff;
+      }
+
+      return times;
+    }
+    </script>
+    <script src="dist/classes_rb.js"></script>
+    <script src="benchs/js/classes.js"></script>
+
+    <script src="dist/array_append_rb.js"></script>
+    <script src="benchs/js/array_append.js"></script>
+
+    <script src="dist/sum_array_rb.js"></script>
+    <script src="benchs/js/sum_array.js"></script>
+
+    <script src="dist/json_parse_rb.js"></script>
+    <script src="benchs/js/json_parse.js"></script>
+	</head>
+	<body>
+
+    <button onclick="runTests();">Run</button>
+
+	</body>
+</html>
